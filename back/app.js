@@ -18,19 +18,17 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Creates Keys and stores Private and Public into variables
 const key1 = new NodeRSA({ b: 1024 });
 const key2 = new NodeRSA({ b: 1024 });
 const privateKey1 = key1.exportKey("private").slice(32,500);
 const privateKey2 = key2.exportKey("private").slice(32,500);
 const publicKey1 = key1.exportKey("public").slice(27,247);
 const publicKey2 = key2.exportKey("public").slice(27,247);
-console.log(publicKey1)
 
-//const envryptedString = key.encrypt(secret, "base64");
-//console.log("Encrypted:", envryptedString);
-//const decrypt = key.decrypt(envryptedString, "utf-8");
-//console.log("Decrypted:", decrypt);
 
+// When a message is sent, it gets encrypted with the recipients public keys, and decrypted with their keys as well
+// So no one else can decode the message 
 app.post("/sendmessage", function (req, res) {
   const message = req.body.message;
   if (req.body.user == 1) {
@@ -50,6 +48,7 @@ app.post("/sendmessage", function (req, res) {
   }
 });
 
+// Sends Private and Public Keys for viewing purposes
 app.get("/getkeys", function(req, res){
   res.send({privateKey1, privateKey2, publicKey1, publicKey2})
 })

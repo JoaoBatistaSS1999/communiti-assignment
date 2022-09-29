@@ -25,6 +25,7 @@ const App = () => {
     e.preventDefault();
   };
 
+  // Sends message to backend to be encrypted / decrypted
   const sendTextUser1 = async (value) => {
     const data = await axios.post(
       "http://localhost:3001/sendmessage",
@@ -52,6 +53,7 @@ const App = () => {
     setViewMessage2(true);
   };
 
+  // Upon mounting, fetches Keys to render on info box
   useEffect(() => {
     const getKeys = async () => {
       const data = await axios.get("http://localhost:3001/getkeys");
